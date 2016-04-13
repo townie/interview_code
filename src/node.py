@@ -25,4 +25,4 @@ class Node:
         self.children = []
 
     def add_child(self, new_node):
-    	self.children = self.children + [new_node]
+     	self.children = self.children + [new_node]

@@ -6,4 +6,4 @@ nodes = ad.read_data()
 ti = tree.TreeInterface(nodes)
 t = ti.build_from_nodes()
 
-t.root.children
+keymap = t.build_adjency_list_for_red_node_ancestor()

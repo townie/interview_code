@@ -23,8 +23,12 @@ class TreeInterface:
 
 
 class Tree:
-	# This tree is implemented with an index into the tree for quick inserts and a full tree implementation
-	# to support a DFS search pattern for the need to find the adjency list
+	# This tree is implemented for dfs inserts and traversal from root.
+	# I was planning on also a building an index into each not for O(1) lookup time... but python 
+	# object references got me a little tripped up so I moved on beyond that for a naive DFS.
+	#
+	# To support a DFS search pattern for the need to find the adjency list with 
+	# a cahce of recently visited top_level_collector nodes.
 
 	def __init__(self, root=None):
 		self.root = root
@@ -61,7 +65,30 @@ class Tree:
 			return None 
 		parent_node.add_child(child_node)
 
-
-	def build_adjency_list_for_red_node_ancestor
+	def build_adjency_list_for_red_node_ancestor(self, top_level_collector='r'):
 		# Hate this method name, but in the sake of clarity of this example
-		print('yolo')
+		# @param [String] top_level_collector - could be extended to any order of filters/collectors
+		self.dfs_collector_cache(top_level_collector, self.root)
+
+	def dfs_collector_cache(self, tlck, start_node, current_current_map={}, id_of_recent_collector=None):
+		# @param [String] tlck - top_level_collector_key 
+		print(start_node.id)
+		if start_node.type == tlck:
+			id_of_recent_collector = start_node.id
+			# pdb.set_trace()
+			current_current_map[start_node.id] = {}
+
+		if start_node.children:
+			for child in start_node.children:
+				if current_current_map.has_key(start_node.id):
+					depth = current_current_map[start_node.id] 
+				else:
+					depth = current_current_map[start_node.id] = {}
+
+				if depth.has_key(child.type):
+					current_current_map[start_node.id][child.type].append(child.id)
+				else:
+					current_current_map[start_node.id][child.type] = [child.id]
+				self.dfs_collector_cache(tlck, child, current_current_map, id_of_recent_collector)
+		else:
+			return current_current_map
